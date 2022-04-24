@@ -209,18 +209,16 @@ app.post('/book/query', async (req, res) => {
 //借记管理
 app.post('/borrow/getRecords', async (req, res) => {
     try {
-        const {count, rows} = await borrow.findAndCountAll({ where: { cid: req.body.cid, return_date: null } })
-        // console.log(JSON.stringify(records, null, 4))
-        // console.log(JSON.stringify(records))
-        if (count == 0) {
-            console.log("no")
+        const card = await cards.findOne({ where: { cid: req.body.cid } })
+        if (card == null) {
             res.send("no card")
         }
-        else
-        {
-            console.log(JSON.stringify(rows))
-            res.send(JSON.stringify(rows, null, 4))
+        else {
+            const records = await borrow.findAll({ where: { cid: req.body.cid, return_date: null } })
+            // console.log(JSON.stringify(records))
+            res.send(JSON.stringify(records, null, 4))
         }
+
     } catch (e) {
         console.log(e)
     }
@@ -263,32 +261,33 @@ app.post('/borrow/getBorrowed', async (req, res) => {
 
 app.post('/borrow/borrow', async (req, res) => {
     try {
-        const card = await cards.findOne({ where: { cid: req.body.cid } })
-        if (card == null) {
-            res.send("no card")
+        // const card = await cards.findOne({ where: { cid: req.body.cid } })
+        // if (card == null) {
+        //     res.send("no card")
+        // }
+        // else {
+        const hasBorrowed = await borrow.findOne({ where: { cid: req.body.cid, bno: req.body.bno, return_date: null } })
+        if (hasBorrowed == null) {
+            let date = new Date()
+            // console.log(date.toLocaleDateString())
+            await borrow.create({
+                cid: req.body.cid,
+                bno: req.body.bno,
+                borrow_date: date.toLocaleDateString(),
+                return_date: null,
+                operatorID: req.body.operatorID,
+            })
+            const borrowedBook = await books.findOne({ where: { bno: req.body.bno } })
+            borrowedBook.stock--
+            await borrowedBook.save()
+            // const newBooks = await books.findAll()
+            // res.send(JSON.stringify(newBooks, null, 4))
+            res.send("success")
         }
         else {
-            const hasBorrowed = await borrow.findOne({ where: { cid: req.body.cid, bno: req.body.bno, return_date: null } })
-            if (hasBorrowed == null) {
-                let date = new Date()
-                // console.log(date.toLocaleDateString())
-                await borrow.create({
-                    cid: req.body.cid,
-                    bno: req.body.bno,
-                    borrow_date: date.toLocaleDateString(),
-                    return_date: null,
-                    operatorID: req.body.operatorID,
-                })
-                const borrowedBook = await books.findOne({ where: { bno: req.body.bno } })
-                borrowedBook.stock--
-                await borrowedBook.save()
-                const newBooks = await books.findAll()
-                res.send(JSON.stringify(newBooks, null, 4))
-            }
-            else {
-                res.send("borrowed")
-            }
+            res.send("borrowed")
         }
+        // }
     } catch (e) {
         console.log(e)
     }
@@ -296,12 +295,6 @@ app.post('/borrow/borrow', async (req, res) => {
 
 app.post('/borrow/return', async (req, res) => {
     try {
-        // await borrow.destroy({where: {
-        //     cid: req.body.cid,
-        //     bno: req.body.bno,
-        //     return_date: null
-        // }})
-        // console.log("req:\n" + JSON.stringify(req.body))
         let record = await borrow.findOne({
             where: {
                 cid: req.body.cid,
@@ -315,13 +308,14 @@ app.post('/borrow/return', async (req, res) => {
         let book = await books.findOne({ where: { bno: req.body.bno } })
         book.stock++
         await book.save()
-        const records = await borrow.findAll({ where: { cid: req.body.cid, return_date: null } })
-        let borrowedBooks = []
-        for (let record of records) {
-            book = await books.findOne({ where: { bno: record.bno } })
-            borrowedBooks.push(book)
-        }
-        res.send(JSON.stringify(borrowedBooks, null, 4))
+        // const records = await borrow.findAll({ where: { cid: req.body.cid, return_date: null } })
+        // let borrowedBooks = []
+        // for (let record of records) {
+        //     book = await books.findOne({ where: { bno: record.bno } })
+        //     borrowedBooks.push(book)
+        // }
+        // res.send(JSON.stringify(borrowedBooks, null, 4))
+        res.send("success")
     } catch (e) {
         console.log(e)
     }
@@ -372,11 +366,11 @@ app.post('/cards/delete', async (req, res) => {
             res.send("error")
         }
         else {
-            await cards.destroy({ where: { cid: req.body.cid } })//得先判断有没有书要还
-            const cardlist = await cards.findAll()
-            res.send(JSON.stringify(cardlist, null, 4))
+            await cards.destroy({ where: { cid: req.body.cid } })
+            // const cardlist = await cards.findAll()
+            // res.send(JSON.stringify(cardlist, null, 4))
+            res.send("success")
         }
-        // res.send("success")
     } catch (e) {
         console.log(e)
     }

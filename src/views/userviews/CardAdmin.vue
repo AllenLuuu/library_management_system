@@ -43,7 +43,7 @@ export default {
       this.cardSearch({ cid: this.cid });
     },
     deleteCard(index) {
-      this.cardDelete({ cid: this.cards[index].cid });
+      this.cardDelete({ cid: this.cards[index].cid, currentQuery: this.cid });
       // console.log(this.cid)
       // this.search()
     },

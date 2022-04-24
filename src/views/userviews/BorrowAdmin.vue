@@ -17,7 +17,7 @@
         </el-form-item>
       </el-form>
       <!-- 表格 -->
-      <el-table :data="borrowedBooks" style="width: 100%" max-height="450px">
+      <el-table v-if="showBorrowed" :data="borrowedBooks" style="width: 100%" max-height="450px">
         <el-table-column fixed="left" prop="bno" label="书号" />
         <el-table-column prop="title" label="书名" />
         <el-table-column prop="type" label="分类" />
@@ -48,7 +48,7 @@
         </el-form-item>
       </el-form>
       <!-- 表格 -->
-      <el-table :data="books" style="width: 100%" max-height="450px">
+      <el-table v-if="showBooks" :data="books" style="width: 100%" max-height="450px">
         <el-table-column fixed="left" prop="bno" label="书号" />
         <el-table-column prop="title" label="书名" />
         <el-table-column prop="type" label="分类" />
@@ -83,6 +83,8 @@ export default {
         cid: null,
         bno: null,
       },
+      showBorrowed: false,
+      showBooks: false,
     };
   },
   computed: {
@@ -100,6 +102,7 @@ export default {
           type: "warning",
         });
       } else {
+        this.showBorrowed = true;
         this.getBorrowedBooks({ cid: this.borrow.cid });
       }
     },
@@ -110,23 +113,18 @@ export default {
           type: "warning",
         });
       } else {
-        // if (this.borrow.bno == null || this.borrow.bno == "") {
-        //   this.query("");
-        // } else {
-        //   var operation = `bno: ${this.borrow.bno}`;
-        //   this.query(operation);
-        // }
+        this.showBooks = true;
         this.getQueriedBooks({ cid: this.borrow.cid, bno: this.borrow.bno });
       }
     },
     return_book(index) {
-      console.log(this.borrowedBooks[index].bno);
+      // console.log(this.borrowedBooks[index].bno);
       let returnData = {
         bno: this.borrowedBooks[index].bno,
         cid: this.borrow.cid,
       };
-      console.log(this.borrow.cid);
-      this.returnBook(returnData);
+      // console.log(this.borrow.cid);
+      this.returnBook({ returnData, queriedBno: this.borrow.bno });
     },
     borrow_book(index) {
       if (this.books[index].stock == 0) {
@@ -140,7 +138,7 @@ export default {
           cid: this.borrow.cid,
           operatorID: this.operatorID,
         };
-        this.borrowBook(borrowData);
+        this.borrowBook({ borrowData, queriedBno: this.borrow.bno });
       }
     },
     ...mapMutations(["setBooks", "setBorrowedBooks"]),
@@ -152,8 +150,9 @@ export default {
     ]),
   },
   mounted() {
-    this.setBorrowedBooks([])
+    this.setBorrowedBooks([]);
     this.setBooks([]);
+    this.showBorrowed = this.showBooks = false;
   },
 };
 </script>

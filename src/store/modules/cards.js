@@ -28,7 +28,7 @@ export default ({
                 }
             })
         },
-        async cardDelete({ commit }, { cid }) {
+        async cardDelete({ dispatch }, { cid, currentQuery }) {
             window.$.ajax('/cards/delete', {
                 method: "POST",
                 data: { cid },
@@ -40,7 +40,8 @@ export default ({
                         })
                     }
                     else {
-                        commit('setCards', eval(res))
+                        // commit('setCards', eval(res))
+                        dispatch('cardSearch', { cid: currentQuery })
                     }
                 },
                 error(jqXHR, textStatus, errorThrown) {

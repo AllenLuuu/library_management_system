@@ -50,7 +50,7 @@ export default ({
                 }
             })
         },
-        borrowBook({ commit }, borrowData) {
+        borrowBook({ dispatch }, { borrowData, queriedBno }) {
             window.$.ajax("/borrow/borrow", {
                 method: "POST",
                 data: borrowData,
@@ -61,19 +61,20 @@ export default ({
                             type: "warning",
                         });
                     }
-                    else if (res === "no card") {
-                        ElMessage({
-                            message: "无此借书卡",
-                            type: "error"
-                        })
-                    }
-                    else {
+                    // else if (res === "no card") {
+                    //     ElMessage({
+                    //         message: "无此借书卡",
+                    //         type: "error"
+                    //     })
+                    // }
+                    else if (res === "success") {
                         ElMessage({
                             message: "借阅成功",
                             type: "success",
                         });
-                        commit('setBooks', eval(res))
-                        // this.getBorrowedBooks({ cid: this.borrow.cid });
+                        // commit('setBooks', eval(res))
+                        dispatch('getQueriedBooks', { cid: borrowData.cid, bno: queriedBno })
+                        dispatch('getBorrowedBooks', { cid: borrowData.cid })
                     }
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
@@ -84,16 +85,20 @@ export default ({
                 },
             });
         },
-        returnBook({ commit }, returnData) {
+        returnBook({ dispatch }, {returnData, queriedBno}) {
             window.$.ajax('/borrow/return', {
                 method: "POST",
                 data: returnData,
                 success(res) {
-                    commit('setBorrowedBooks', eval(res))
-                    ElMessage({
-                        message: "还书成功",
-                        type: "success"
-                    })
+                    if (res === "success") {
+                        ElMessage({
+                            message: "还书成功",
+                            type: "success"
+                        })
+                        dispatch('getQueriedBooks', { cid: returnData.cid, bno: queriedBno })
+                        dispatch('getBorrowedBooks', { cid: returnData.cid })
+                    }
+                    // commit('setBorrowedBooks', eval(res))
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     ElMessage({
