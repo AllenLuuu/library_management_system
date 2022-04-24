@@ -8,17 +8,31 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^1.1.4",
+    "axios": "^0.26.1",
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "element-plus": "^1.0.2-beta.28",
+    "element-ui": "^2.4.5",
+    "jquery": "^3.6.0",
+    "multer": "^1.4.4",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.19.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "^5.0.4",
+    "@vue/cli-plugin-vuex": "^5.0.4",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint-plugin-vue": "^8.0.3",
+    "vue-cli-plugin-element": "^1.0.1",
+    "vue-cli-plugin-element-plus": "0.0.13"
   },
   "eslintConfig": {
     "root": true,
@@ -26,13 +40,12 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/vue3-essential",
+      "plugin:vue/essential",
       "eslint:recommended"
     ],
     "parserOptions": {
       "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
+    }
   },
   "browserslist": [
     "> 1%",
