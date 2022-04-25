@@ -119,6 +119,19 @@ app.post('/user/login', async (req, res) => {
     }
 })
 
+app.post('/user/opNum', async (req, res) => {
+    try {
+        const { count } = await borrow.findAndCountAll({ where: { operatorID: req.body.id } })
+        console.log(count)
+        let opNum = {
+            count: count
+        }
+        res.send(opNum)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
 //书籍管理
 app.post('/book/store', async (req, res) => {
     try {

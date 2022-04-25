@@ -4,7 +4,8 @@ export default ({
     state: {
         user_name: "test",
         user_id: 123123,
-        login_status: false
+        login_status: false,
+        opNum: 0
         // privilege_level: ""
     },
     getters: {
@@ -16,29 +17,32 @@ export default ({
         },
         setStatus(state, status) {
             state.login_status = status
+        },
+        setOpNum(state, num) {
+            state.opNum = num
         }
     },
     actions: {
         async login({ commit }, { id, password }) {
             window.$.ajax('/user/login', {
-                method: "POST", 
-                data: {id, password},
-                success(res){
+                method: "POST",
+                data: { id, password },
+                success(res) {
                     if (res === "unsigned") {
                         ElMessage({
-                            message:"此账号尚未注册",
+                            message: "此账号尚未注册",
                             type: "warning"
                         })
                     }
                     else if (res === "wrong") {
                         ElMessage({
-                            message:"密码错误",
+                            message: "密码错误",
                             type: "warning"
                         })
                     }
                     else {
                         ElMessage({
-                            message:"登录成功",
+                            message: "登录成功",
                             type: "success"
                         })
                         commit("setUser", {
@@ -50,7 +54,7 @@ export default ({
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     ElMessage({
-                        message:"登录失败"+errorThrown,
+                        message: "登录失败" + errorThrown,
                         type: "error"
                     })
                 }
@@ -90,11 +94,21 @@ export default ({
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     ElMessage({
-                        message:"注册失败"+errorThrown,
+                        message: "注册失败" + errorThrown,
                         type: "error"
                     })
                 }
             })
+        },
+        async getOpNum({ state, commit }) {
+            window.$.ajax("/user/opNum", {
+                method: "POST",
+                data: { id: state.user_id },
+                success(res) {
+                    commit('setOpNum', res.count)
+                    console.log(res.count)
+                },
+            });
         }
     }
 })
