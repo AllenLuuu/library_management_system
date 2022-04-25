@@ -10,66 +10,42 @@
         label-position="right"
         label-width="80px"
         :model="signupData"
+        :rules="signupRules"
+        status-icon
         hide-required-asterisk
         ref="form"
       >
-        <el-form-item
-          label="ID"
-          prop="id"
-          :rules="[{ required: true, message: 'ID不能为空' }]"
-        >
+        <el-form-item label="ID" prop="id">
           <el-input
-            ref="id"
             class="longinput"
             placeholder="请输入ID"
-            v-model.number="signupData.id"
+            v-model="signupData.id"
           />
         </el-form-item>
-        <el-form-item
-          label="用户名"
-          prop="name"
-          :rules="[{ required: true, message: '用户名不能为空' }]"
-        >
+        <el-form-item label="用户名" prop="name">
           <el-input
-            ref="name"
             class="longinput"
             placeholder="请输入用户名"
-            v-model.number="signupData.name"
+            v-model="signupData.name"
           />
         </el-form-item>
-        <el-form-item
-          label="联系方式"
-          prop="contact"
-          :rules="[{ required: true, message: '联系方式不能为空' }]"
-        >
+        <el-form-item label="联系方式" prop="contact">
           <el-input
-            ref="contact"
             class="longinput"
             placeholder="请输入联系方式"
-            v-model.number="signupData.contact"
+            v-model="signupData.contact"
           />
         </el-form-item>
-        <el-form-item
-          label="密码"
-          prop="password"
-          :rules="[{ required: true, message: '密码不能为空' }]"
-        >
+        <el-form-item label="密码" prop="password">
           <el-input
-            ref="password"
             class="longinput"
             placeholder="请输入密码"
             v-model="signupData.password"
             show-password
-            @keyup.enter="submit"
           />
         </el-form-item>
-        <el-form-item
-          label="重复密码"
-          prop="password"
-          :rules="[{ required: true, message: '密码不能为空' }]"
-        >
+        <el-form-item label="重复密码" prop="passwordrepeated">
           <el-input
-            ref="password"
             class="longinput"
             placeholder="请再次输入密码"
             v-model="signupData.passwordrepeated"
@@ -85,11 +61,33 @@
 </template>
 
 <script>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { mapActions, mapState } from "vuex";
 export default {
   name: "SignUp",
   data() {
+    let checkID = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("请输入ID"));
+      } else {
+        if (isNaN(Number(value))) {
+          callback(new Error("ID必须为数字值"));
+        } else {
+          callback();
+        }
+      }
+    };
+    let checkPassRepeated = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("请再次输入密码"));
+      } else {
+        if (value !== this.signupData.password) {
+          callback(new Error("两次输入密码不一致"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       signupData: {
         id: null,
@@ -98,12 +96,21 @@ export default {
         password: null,
         passwordrepeated: null,
       },
+      signupRules: {
+        id: [{ validator: checkID, trigger: "blur" }],
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        contact: [
+          { required: true, message: "请输入联系方式", trigger: "blur" },
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        passwordrepeated: [{ validator: checkPassRepeated, trigger: "blur" }],
+      },
     };
   },
   computed: {
     ...mapState({
-      login_status: state => state.administrator.login_status,
-      user_id: state => state.administrator.user_id
+      login_status: (state) => state.administrator.login_status,
+      user_id: (state) => state.administrator.user_id,
     }),
   },
   watch: {
@@ -115,14 +122,13 @@ export default {
   },
   methods: {
     submit() {
-      if (this.signupData.password !== this.signupData.passwordrepeated) {
-        ElMessage({
-          message: "两次密码输入不一致",
-          type: "warning",
-        });
-      } else {
-        this.signUp(this.signupData);
-      }
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          this.signUp(this.signupData);
+        } else {
+          console.log("error signup!!");
+        }
+      });
     },
     backToLogin() {
       this.$router.push("/login");

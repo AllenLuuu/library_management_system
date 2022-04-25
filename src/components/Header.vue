@@ -36,9 +36,6 @@ export default {
     },
     ...mapActions(["logout"])
   },
-  created() {
-    console.log(this.user_name)
-  }
 };
 </script>
 

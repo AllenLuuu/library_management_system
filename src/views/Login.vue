@@ -13,30 +13,21 @@
         label-position="right"
         label-width="80px"
         :model="loginData"
+        :rules="loginRules"
         hide-required-asterisk
         ref="form"
       >
-        <el-form-item
-          label="ID"
-          prop="id"
-          :rules="[{ required: true, message: 'ID不能为空' }]"
-        >
+        <el-form-item label="ID" prop="id">
           <el-input
-            ref="id"
             class="longinput"
             placeholder="请输入ID"
-            v-model.number="loginData.id"
+            v-model="loginData.id"
           />
         </el-form-item>
-        <el-form-item
-          label="密码"
-          prop="password"
-          :rules="[{ required: true, message: '密码不能为空' }]"
-        >
+        <el-form-item label="密码" prop="password">
           <el-input
-            ref="password"
             class="longinput"
-            placeholder="用户密码"
+            placeholder="请输入密码"
             v-model="loginData.password"
             show-password
             @keyup.enter="submit"
@@ -58,24 +49,34 @@ export default {
         id: null,
         password: null,
       },
+      loginRules: {
+        id: [{ required: true, message: "请输入ID", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+      },
     };
   },
   computed: {
     ...mapState({
-      login_status: state => state.administrator.login_status,
-      user_id: state => state.administrator.user_id
-    })
+      login_status: (state) => state.administrator.login_status,
+      user_id: (state) => state.administrator.user_id,
+    }),
   },
   watch: {
     login_status(newStatus) {
       if (newStatus === true) {
-        this.$router.push(`/user/${this.user_id}/home`)
+        this.$router.push(`/user/${this.user_id}/home`);
       }
-    }
+    },
   },
   methods: {
     async submit() {
-        this.login(this.loginData);
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          this.login(this.loginData);
+        } else {
+          console.log("error submit!!");
+        }
+      });
     },
     toSignUp() {
       this.$router.push({ path: `/signup` });

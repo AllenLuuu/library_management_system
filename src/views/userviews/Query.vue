@@ -4,7 +4,6 @@
       <el-form
         :model="bookInfo"
         ref="bookInfo"
-        :label-position="left"
         label-width="100px"
       >
         <el-form-item label="书号" prop="bno">
