@@ -4,6 +4,7 @@
       <template #header>
         <div class="card-header">
           <span>注册新账号</span>
+        <el-button type="text" @click="backToLogin">返回登录</el-button>
         </div>
       </template>
       <el-form
@@ -54,7 +55,6 @@
           />
         </el-form-item>
         <el-button @click="submit" type="primary">注册</el-button>
-        <el-button @click="backToLogin">返回登录</el-button>
       </el-form>
     </el-card>
   </el-row>

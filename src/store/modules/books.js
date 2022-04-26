@@ -2,15 +2,6 @@ import { ElMessage } from "element-plus"
 
 export default ({
     state: {
-        // bno: null,
-        // type: null,
-        // title: null,
-        // press: null,
-        // year: null,
-        // author: null,
-        // price: null,
-        // total: null,
-        // stock: null
         books: []
     },
     getters: {

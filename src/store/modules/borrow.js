@@ -61,18 +61,11 @@ export default ({
                             type: "warning",
                         });
                     }
-                    // else if (res === "no card") {
-                    //     ElMessage({
-                    //         message: "无此借书卡",
-                    //         type: "error"
-                    //     })
-                    // }
                     else if (res === "success") {
                         ElMessage({
                             message: "借阅成功",
                             type: "success",
                         });
-                        // commit('setBooks', eval(res))
                         dispatch('getQueriedBooks', { cid: borrowData.cid, bno: queriedBno })
                         dispatch('getBorrowedBooks', { cid: borrowData.cid })
                     }
@@ -98,7 +91,6 @@ export default ({
                         dispatch('getQueriedBooks', { cid: returnData.cid, bno: queriedBno })
                         dispatch('getBorrowedBooks', { cid: returnData.cid })
                     }
-                    // commit('setBorrowedBooks', eval(res))
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     ElMessage({

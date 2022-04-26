@@ -33,7 +33,7 @@
             @keyup.enter="submit"
           />
         </el-form-item>
-        <el-button @click="submit">登录</el-button>
+        <el-button @click="submit" type="primary">登录</el-button>
       </el-form>
     </el-card>
   </el-row>

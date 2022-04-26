@@ -44,8 +44,6 @@ export default {
     },
     deleteCard(index) {
       this.cardDelete({ cid: this.cards[index].cid, currentQuery: this.cid });
-      // console.log(this.cid)
-      // this.search()
     },
     ...mapActions(["cardSearch", "cardDelete"]),
   },

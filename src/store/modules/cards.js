@@ -18,7 +18,6 @@ export default ({
                 data: { cid },
                 success(res) {
                     commit('setCards', eval(res))
-                    // console.log(eval(res))
                 },
                 error(jqXHR, textStatus, errorThrown) {
                     ElMessage({
@@ -40,7 +39,6 @@ export default ({
                         })
                     }
                     else {
-                        // commit('setCards', eval(res))
                         dispatch('cardSearch', { cid: currentQuery })
                     }
                 },

@@ -59,7 +59,7 @@
     <div v-if="show">
       <el-table
         :data="books"
-        :default-sort="{ prop: 'title', order: 'descending' }"
+        :default-sort="{ prop: 'bno', order: 'ascending' }"
         style="width: 100%"
         max-height="500px"
       >
@@ -73,7 +73,7 @@
       <el-table-column prop="total" label="总量" sortable />
       <el-table-column prop="stock" label="库存" sortable />
       </el-table>
-      <el-button @click="backToSearch">返回查询</el-button>
+      <el-button @click="backToSearch" style="margin-top: 10px">返回查询</el-button>
     </div>
   </div>
 </template>
@@ -109,7 +109,7 @@ export default {
     searchBook() {
       //发送请求，渲染数据
       let operation = "[Op.and]: {\n";
-      for (let key in this.bookInfo) {
+      for (let key in this.bookInfo) {    //拼接查询字符串
         if (this.bookInfo[key] != null && this.bookInfo[key] != "") {
           if (key == "start_year") {
             if (this.bookInfo.end_year != null) {

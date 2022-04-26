@@ -40,7 +40,7 @@ const routes = [
         component: StoreOne
       },
       {
-        path: 'store-batch',
+        path: 'store-batch',    //批量入库
         name: 'StoreBatch',
         component: StoreBatch
       },
@@ -50,7 +50,7 @@ const routes = [
         component: QueryView
       },
       {
-        path: 'borrow-admin',
+        path: 'borrow-admin',   //借记管理，包括借书还书操作
         name: 'BorrowAdmin',
         component: BorrowAdmin
       },
@@ -60,7 +60,7 @@ const routes = [
         component: CardAdd
       },
       {
-        path: 'card-admin',
+        path: 'card-admin',   //借书卡管理，可以删除没有借阅记录的卡
         name: 'CardAdmin',
         component: CardAdmin
       },

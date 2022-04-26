@@ -18,7 +18,7 @@
     <br />
     <el-row justify="center">
       <span
-        >本月操作次数已达 <em>{{ operations }}</em> 次</span
+        >本账户操作次数已达 <em>{{ operations }}</em> 次</span
       >
     </el-row>
   </div>
@@ -29,11 +29,6 @@ import { mapActions, mapState } from "vuex";
 
 export default {
   name: "HomeView",
-  // data() {
-  //   return {
-  //     operations: 0,
-  //   };
-  // },
   computed: {
     ...mapState({
       name: (state) => state.administrator.user_name,
@@ -42,23 +37,9 @@ export default {
     }),
   },
   methods: {
-    // getOpNum() {
-    //   window.$.ajax("/user/opNum", {
-    //     method: "POST",
-    //     data: { id: this.id },
-    //     success(res) {
-    //       this.operations = res.count;
-    //       console.log(this.operations);
-    //       return res.operations;
-    //     },
-    //   });
-    //   console.log(this.operations)
-    //   // this.operations++;
-    // },
     ...mapActions(["getOpNum"]),
   },
   created() {
-    // console.log("created")
     this.getOpNum();
   },
 };

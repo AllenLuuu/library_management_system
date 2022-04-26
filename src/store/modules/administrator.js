@@ -2,8 +2,8 @@ import { ElMessage } from "element-plus"
 
 export default ({
     state: {
-        user_name: "test",
-        user_id: 123123,
+        user_name: "",
+        user_id: null,
         login_status: false,
         opNum: 0
         // privilege_level: ""
@@ -106,7 +106,6 @@ export default ({
                 data: { id: state.user_id },
                 success(res) {
                     commit('setOpNum', res.count)
-                    console.log(res.count)
                 },
             });
         }

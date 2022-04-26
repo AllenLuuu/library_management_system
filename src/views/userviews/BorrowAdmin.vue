@@ -9,7 +9,7 @@
           style="max-width: 400px"
           :rules="[{ required: true, message: '卡号不能为空' }]"
         >
-          <el-input type="text" v-model="borrow.cid">
+          <el-input type="text" v-model="borrow.cid" @keyup.enter="searchBorrowed">
             <template #append>
               <el-button @click="searchBorrowed"> 搜索 </el-button>
             </template>
@@ -72,7 +72,7 @@
 
 <script>
 import { ElMessage } from "element-plus";
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 // import { Search } from '@element-plus/icons-vue'
 
 export default {
@@ -141,7 +141,6 @@ export default {
         this.borrowBook({ borrowData, queriedBno: this.borrow.bno });
       }
     },
-    ...mapMutations(["setBooks", "setBorrowedBooks"]),
     ...mapActions([
       "getBorrowedBooks",
       "borrowBook",
@@ -150,8 +149,6 @@ export default {
     ]),
   },
   mounted() {
-    this.setBorrowedBooks([]);
-    this.setBooks([]);
     this.showBorrowed = this.showBooks = false;
   },
 };
