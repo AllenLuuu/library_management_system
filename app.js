@@ -1,3 +1,5 @@
+// @ts-check
+
 const express = require('express');
 const { Sequelize, DataTypes, Op } = require('sequelize');
 const bodyparser = require('body-parser');
@@ -11,7 +13,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 // app.use(upload.single('file'));
 
-let sequelize = new Sequelize('library', 'Allen', 'Allen020125??!', {
+let sequelize = new Sequelize('library', 'Allen', 'password', {
     host: 'localhost',
     dialect: 'mysql',
     pool: {
@@ -111,6 +113,7 @@ app.post('/user/login', async (req, res) => {
     if (admin == null) {
         res.send("unsigned")
     }
+    // @ts-ignore
     else if (admin.password !== req.body.password) {
         res.send("wrong")
     }
@@ -384,3 +387,5 @@ app.listen(port, async () => {
         console.error('Unable to connect to the database:', error);
     }
 })
+
+// React TS Electron.js IonicCapacitor Puppeteer
