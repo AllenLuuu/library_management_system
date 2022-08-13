@@ -65,7 +65,7 @@ export default {
     async create() {
       this.$refs["cardInfo"].validate((valid) => {
         if (valid) {
-          window.$.ajax("/cards/create", {
+          window.$.ajax("/lib/cards/create", {
             method: "POST",
             data: this.cardInfo,
             success(res) {

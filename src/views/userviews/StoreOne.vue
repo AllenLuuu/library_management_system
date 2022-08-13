@@ -111,7 +111,7 @@ export default {
     async store() {
       this.$refs["bookInfo"].validate((valid) => {
         if (valid) {
-          window.$.ajax("/book/store", {
+          window.$.ajax("/lib/book/store", {
             method: "POST",
             data: this.bookInfo,
             success() {

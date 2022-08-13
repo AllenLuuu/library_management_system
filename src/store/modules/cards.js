@@ -13,7 +13,7 @@ export default ({
     },
     actions: {
         async cardSearch({ commit }, { cid }) {
-            window.$.ajax('/cards/search', {
+            window.$.ajax('/lib/cards/search', {
                 method: "POST",
                 data: { cid },
                 success(res) {
@@ -28,7 +28,7 @@ export default ({
             })
         },
         async cardDelete({ dispatch }, { cid, currentQuery }) {
-            window.$.ajax('/cards/delete', {
+            window.$.ajax('/lib/cards/delete', {
                 method: "POST",
                 data: { cid },
                 success(res) {

@@ -24,7 +24,7 @@ export default {
       const formData = new FormData();
       const file = param.file;
       formData.append("file", file);
-      window.$.ajax("/book/storeBatch", {
+      window.$.ajax("/lib/book/storeBatch", {
         method: "POST",
         data: formData,
         processData: false,

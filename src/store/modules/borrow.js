@@ -20,7 +20,7 @@ export default ({
     },
     actions: {
         getBorrowedBooks({ commit, state }, { cid }) {
-            window.$.ajax('/borrow/getRecords', {
+            window.$.ajax('/lib/test/borrow/getRecords', {
                 method: "POST",
                 data: { cid },
                 success(res) {
@@ -33,7 +33,7 @@ export default ({
                     else {
                         commit('setBorrows', eval(res))
                         console.log(state.borrows)
-                        window.$.ajax('/borrow/getBorrowed', {
+                        window.$.ajax('/lib/borrow/getBorrowed', {
                             method: "POST",
                             data: { borrows: state.borrows },
                             success(res) {
@@ -51,7 +51,7 @@ export default ({
             })
         },
         borrowBook({ dispatch }, { borrowData, queriedBno }) {
-            window.$.ajax("/borrow/borrow", {
+            window.$.ajax("/lib/borrow/borrow", {
                 method: "POST",
                 data: borrowData,
                 success(res) {
@@ -79,7 +79,7 @@ export default ({
             });
         },
         returnBook({ dispatch }, {returnData, queriedBno}) {
-            window.$.ajax('/borrow/return', {
+            window.$.ajax('/lib/borrow/return', {
                 method: "POST",
                 data: returnData,
                 success(res) {
@@ -101,7 +101,7 @@ export default ({
             })
         },
         getQueriedBooks({ commit }, { cid, bno }) {
-            window.$.ajax('/borrow/getBooks', {
+            window.$.ajax('/lib/borrow/getBooks', {
                 method: "POST",
                 data: { cid, bno },
                 success(res) {

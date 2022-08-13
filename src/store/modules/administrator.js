@@ -24,7 +24,7 @@ export default ({
     },
     actions: {
         async login({ commit }, { id, password }) {
-            window.$.ajax('/user/login', {
+            window.$.ajax('/lib/user/login', {
                 method: "POST",
                 data: { id, password },
                 success(res) {
@@ -68,7 +68,7 @@ export default ({
             commit('setStatus', false)
         },
         async signUp({ commit }, { id, name, password, contact }) {
-            window.$.ajax('/user/signup', {
+            window.$.ajax('/lib/user/signup', {
                 method: "POST",
                 data: {
                     id, name, password, contact
@@ -101,7 +101,7 @@ export default ({
             })
         },
         async getOpNum({ state, commit }) {
-            window.$.ajax("/user/opNum", {
+            window.$.ajax("/lib/user/opNum", {
                 method: "POST",
                 data: { id: state.user_id },
                 success(res) {

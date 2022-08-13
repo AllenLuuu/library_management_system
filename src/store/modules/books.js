@@ -16,7 +16,7 @@ export default ({
     },
     actions: {
         async query({ commit }, whereString) {
-            window.$.ajax('/book/query', {
+            window.$.ajax('/lib/book/query', {
                 method: "POST",
                 data: {
                     op: whereString
